@@ -1,4 +1,4 @@
-from src.data.rpo import BaseRPO
+from src.data.base_rpo import BaseRPO
 from tests.dummy_dao import DummyDAO
 from tests.dummy_ent import DummyENT
 

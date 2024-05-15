@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
-from src.data.dao import BaseDAO
+
+from src.data.base_dao import BaseDAO
 
 
 class DummyDAO(BaseDAO):

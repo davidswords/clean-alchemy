@@ -1,8 +1,11 @@
 from datetime import datetime
-from src.domain.ent import BaseENT
+from src.domain.base_ent import BaseENT
 
 
 class DummyENT(BaseENT):
+    name: str
+    age: int
+
     def __init__(
         self,
         key: str,
@@ -17,7 +20,6 @@ class DummyENT(BaseENT):
             created_at=created_at,
             updated_at=updated_at,
             archived=archived,
+            name=name,
+            age=age,
         )
-
-        self.name = name
-        self.age = age

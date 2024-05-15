@@ -3,8 +3,8 @@ from typing import Generic, TypeVar, List, Type
 
 from sqlalchemy.orm import Session
 
-from src.data.dao import BaseDAO
-from src.domain.ent import BaseENT
+from src.data.base_dao import BaseDAO
+from src.domain.base_ent import BaseENT
 from src.config import ENV
 
 DAO_TYPE = TypeVar("DAO_TYPE", bound=BaseDAO)

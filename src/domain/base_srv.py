@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from random import choice
 from typing import Generic, List, Tuple, TypeVar
 
-from src.data.rpo import BaseRPO
-from src.domain.ent import BaseENT
+from src.data.base_rpo import BaseRPO
+from src.domain.base_ent import BaseENT
 
 
 RPO_TYPE = TypeVar("RPO_TYPE", bound=BaseRPO)

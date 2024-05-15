@@ -2,6 +2,7 @@ import factory
 
 from tests.dummy_dao import DummyDAO
 
+
 class DummyFactory(factory.Factory):
     class Meta:
         model = DummyDAO
