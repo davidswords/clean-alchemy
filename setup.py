@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 setup(
     name='clean-alchemy',
     version='0.1',
-    packages=find_packages(),
+    package_dir={'': 'src'},
+    packages=find_packages(where='src'),
     install_requires=[
         'annotated-types==0.6.0',
         'black==24.4.2',
@@ -30,12 +31,14 @@ setup(
         'tomli==2.0.1',
         'typing_extensions==4.11.0'
     ],
-    tests_require=[
-        'pytest==8.2.0',
-        'pytest-mock==3.14.0',
-        'factory-boy==3.3.0',
-        'pytest-sugar==1.0.0'
-    ],
+    extras_require={
+        'dev': [
+            'pytest==8.2.0',
+            'pytest-mock==3.14.0',
+            'factory-boy==3.3.0',
+            'pytest-sugar==1.0.0'
+        ],
+    },
     author='David Swords',
     author_email='furuer_svette.0k@icloud.com',
     description='A framework for implementing Clean Architecture using SQLAlchemy, with currently only support for FastAPI.',
