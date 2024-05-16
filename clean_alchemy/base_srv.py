@@ -4,8 +4,7 @@ from abc import ABC, abstractmethod
 from random import choice
 from typing import Generic, List, Tuple, TypeVar
 
-from src.data.base_rpo import BaseRPO
-from src.domain.base_ent import BaseENT
+from clean_alchemy import BaseRPO, BaseENT
 
 
 RPO_TYPE = TypeVar("RPO_TYPE", bound=BaseRPO)

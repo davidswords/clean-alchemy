@@ -1,4 +1,5 @@
-from src.data.base_rpo import BaseRPO
+from clean_alchemy import BaseRPO
+
 from tests.dummy_dao import DummyDAO
 from tests.dummy_ent import DummyENT
 

@@ -1,5 +1,6 @@
 from datetime import datetime
-from src.domain.base_ent import BaseENT
+
+from clean_alchemy import BaseENT
 
 
 class DummyENT(BaseENT):
