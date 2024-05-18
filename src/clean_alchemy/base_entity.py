@@ -3,14 +3,14 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class BaseENT(BaseModel):
+class BaseEntity(BaseModel):
     key: str
     created_at: datetime
     updated_at: datetime
     archived: bool
 
     def __eq__(self, value: object) -> bool:
-        if not isinstance(value, BaseENT):
+        if not isinstance(value, BaseEntity):
             return False
 
         return (

@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from src.clean_alchemy import BaseENT
+from src.clean_alchemy import BaseEntity
 
 
-class DummyENT(BaseENT):
+class DummyEntity(BaseEntity):
     name: str
     age: int
 

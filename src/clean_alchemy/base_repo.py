@@ -3,14 +3,14 @@ from typing import Generic, TypeVar, List, Type
 
 from sqlalchemy.orm import Session
 
-from src.clean_alchemy import BaseDAO, BaseENT
+from src.clean_alchemy import BaseDAO, BaseEntity
 from src.clean_alchemy.config import ENV
 
 DAO_TYPE = TypeVar("DAO_TYPE", bound=BaseDAO)
-ENT_TYPE = TypeVar("ENT_TYPE", bound=BaseENT)
+ENT_TYPE = TypeVar("ENT_TYPE", bound=BaseEntity)
 
 
-class BaseRPO(ABC, Generic[DAO_TYPE, ENT_TYPE]):
+class BaseRepo(ABC, Generic[DAO_TYPE, ENT_TYPE]):
     dao_class: Type[DAO_TYPE] = None
     ent_class: Type[ENT_TYPE] = None
 

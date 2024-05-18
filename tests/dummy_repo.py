@@ -1,15 +1,15 @@
-from src.clean_alchemy import BaseRPO
+from src.clean_alchemy import BaseRepo
 
 from tests.dummy_dao import DummyDAO
-from tests.dummy_ent import DummyENT
+from tests.dummy_entity import DummyEntity
 
 
-class DummyRPO(BaseRPO[DummyDAO, DummyENT]):
+class DummyRepo(BaseRepo[DummyDAO, DummyEntity]):
     dao_class = DummyDAO
-    ent_class = DummyENT
+    ent_class = DummyEntity
 
-    def _to_ent(self, dao: DummyDAO) -> DummyENT:
-        return DummyENT(
+    def _to_ent(self, dao: DummyDAO) -> DummyEntity:
+        return DummyEntity(
             key=dao.key,
             created_at=dao.created_at,
             updated_at=dao.updated_at,
@@ -18,7 +18,7 @@ class DummyRPO(BaseRPO[DummyDAO, DummyENT]):
             age=dao.age,
         )
 
-    def _to_dao(self, ent: DummyENT) -> DummyDAO:
+    def _to_dao(self, ent: DummyEntity) -> DummyDAO:
         return DummyDAO(
             key=ent.key,
             created_at=ent.created_at,

@@ -2,7 +2,7 @@ import pytest
 from pytest_mock import MockerFixture
 
 from tests.dummy_factory import DummyFactory
-from tests.dummy_rpo import DummyRPO
+from tests.dummy_repo import DummyRepo
 
 
 @pytest.fixture
@@ -12,7 +12,7 @@ def mock_db_session(mocker: MockerFixture):
 
 @pytest.fixture
 def dummy_repo(mock_db_session):
-    return DummyRPO(db_session=mock_db_session)
+    return DummyRepo(db_session=mock_db_session)
 
 
 @pytest.fixture

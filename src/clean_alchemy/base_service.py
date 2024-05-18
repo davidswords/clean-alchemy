@@ -4,14 +4,14 @@ from abc import ABC, abstractmethod
 from random import sample
 from typing import Generic, List, Tuple, TypeVar
 
-from src.clean_alchemy import BaseRPO, BaseENT
+from src.clean_alchemy import BaseRepo, BaseEntity
 
 
-RPO_TYPE = TypeVar("RPO_TYPE", bound=BaseRPO)
-ENT_TYPE = TypeVar("ENT_TYPE", bound=BaseENT)
+RPO_TYPE = TypeVar("RPO_TYPE", bound=BaseRepo)
+ENT_TYPE = TypeVar("ENT_TYPE", bound=BaseEntity)
 
 
-class BaseSRV(ABC, Generic[RPO_TYPE, ENT_TYPE]):
+class BaseService(ABC, Generic[RPO_TYPE, ENT_TYPE]):
     def __init__(self, rpo: RPO_TYPE) -> None:
         self.rpo = rpo
 
