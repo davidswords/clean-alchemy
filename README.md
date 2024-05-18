@@ -1,6 +1,6 @@
 # CleanAlchemy
 
-CleanAlchemy is a Python package that provides a framework for implementing Clean Architecture using SQLAlchemy. It includes base classes for entities, DAOs, services, and repositories, making it easier to structure and organize your code. While it is designed to be framework-agnostic, it currently has support for FastAPI, and can be adapted for use with Flask, Django, and other frameworks.
+CleanAlchemy is a Python package that provides a framework for implementing Clean Architecture using SQLAlchemy. It includes base classes for entities, DAOs, services, and repositories, making it easier to structure and organize your code. While it is intended to be framework-agnostic, it currently only supports FastAPI.
 
 ## Features
 

@@ -2,8 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="clean-alchemy",
-    version="0.1.8",
-    packages=find_packages(exclude=["tests*", "build*"]),
+    version="0.1.10",
+    packages=find_packages(where="src", exclude=["tests*", "build*"]),
+    package_dir={"": "src"},
+    include_package_data=True,
     install_requires=[
         "annotated-types==0.6.0",
         "black==24.4.2",
