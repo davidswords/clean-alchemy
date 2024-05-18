@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from random import sample
 from typing import Generic, List, Tuple, TypeVar
 
-from clean_alchemy import BaseRPO, BaseENT
+from src.clean_alchemy import BaseRPO, BaseENT
 
 
 RPO_TYPE = TypeVar("RPO_TYPE", bound=BaseRPO)
@@ -19,10 +19,6 @@ class BaseSRV(ABC, Generic[RPO_TYPE, ENT_TYPE]):
     def _generate_key(prefix: str = "", postfix: str = "", length: int = 24) -> str:
         characters = string.ascii_letters + string.digits
         return f"{prefix}{''.join(sample(characters, k=length))}{postfix}"
-
-    @abstractmethod
-    def _generate_metadata(self) -> dict:
-        pass
 
     @abstractmethod
     def _create_ent_from_doc(self, doc: dict) -> ENT_TYPE:

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from clean_alchemy.base_dao import BaseDAO
+from src.clean_alchemy import BaseDAO
 
 
 class DummyDAO(BaseDAO):

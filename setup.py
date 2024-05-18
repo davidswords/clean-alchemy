@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="clean-alchemy",
-    version="0.1.7",
+    version="0.1.8",
     packages=find_packages(exclude=["tests*", "build*"]),
     install_requires=[
         "annotated-types==0.6.0",
@@ -40,7 +40,7 @@ setup(
     },
     author="David Swords",
     author_email="furuer_svette.0k@icloud.com",
-    description="A framework for implementing Clean Architecture using SQLAlchemy, with currently only support for FastAPI.",
+    description="A framework for implementing Clean Architecture using SQLAlchemy for FastAPI.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     license="Apache 2.0",

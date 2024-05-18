@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from clean_alchemy import BaseENT
+from src.clean_alchemy import BaseENT
 
 
 class DummyENT(BaseENT):
