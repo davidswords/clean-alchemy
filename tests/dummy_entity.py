@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.clean_alchemy import BaseEntity
+from clean_alchemy import BaseEntity
 
 
 class DummyEntity(BaseEntity):

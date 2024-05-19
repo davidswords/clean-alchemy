@@ -22,13 +22,13 @@ def dummy_dao():
 
 @pytest.fixture
 def dummy_ent(dummy_repo, dummy_dao):
-    return dummy_repo._to_ent(dao=dummy_dao)
+    return dummy_repo._to_entity(dao=dummy_dao)
 
 
 class TestBaseRPOToENTShould:
     def test_convert_to_ent_successfully(self, dummy_repo, dummy_dao):
         # Arrange, Act
-        ent = dummy_repo._to_ent(dao=dummy_dao)
+        ent = dummy_repo._to_entity(dao=dummy_dao)
 
         # Assert
         assert ent.key == dummy_dao.key
@@ -42,7 +42,7 @@ class TestBaseRPOToENTShould:
 class TestBaseRPOToDAOShould:
     def test_convert_to_dao_successfully(self, dummy_repo, dummy_ent):
         # Arrange, Act
-        dao = dummy_repo._to_dao(ent=dummy_ent)
+        dao = dummy_repo._to_dao(entity=dummy_ent)
 
         # Assert
         assert dao.key == dummy_ent.key
@@ -68,10 +68,10 @@ class TestBaseRPOCreateManyShould:
         expected = [ent]
 
         # Act
-        result = dummy_repo.create_many(ents=[ent])
+        result = dummy_repo.create_many(entities=[ent])
 
         # Assert
-        dummy_repo._to_mappings.assert_called_once_with(ents=[ent])
+        dummy_repo._to_mappings.assert_called_once_with(entities=[ent])
         dummy_repo._bulk_insert_mappings.assert_called_once_with(mappings=[mapping])
         assert result == expected
 
@@ -88,11 +88,11 @@ class TestBaseRPOCreateShould:
         dummy_repo.create_many = mocker.MagicMock(return_value=[ent])
 
         # Act
-        dummy_repo.create(ent=ent)
+        dummy_repo.create(entity=ent)
 
         # Assert
         dummy_repo.create_many.assert_called_once_with(
-            ents=[ent],
+            entities=[ent],
         )
 
 
@@ -100,14 +100,14 @@ class TestBaseRPORetrieve:
     def test_retrieve_successfully(self, mocker: MockerFixture, dummy_repo, dummy_ent):
         # Arrange
         dummy_repo._filter_by_keys = mocker.MagicMock(return_value=[dummy_ent])
-        dummy_repo._to_ents = mocker.MagicMock(return_value=[dummy_ent])
+        dummy_repo._to_entities = mocker.MagicMock(return_value=[dummy_ent])
 
         # Act
         result = dummy_repo.retrieve(key=dummy_ent.key)
 
         # Assert
         dummy_repo._filter_by_keys.assert_called_once_with(keys=[dummy_ent.key])
-        dummy_repo._to_ents.assert_called_once_with(daos=[dummy_ent])
+        dummy_repo._to_entities.assert_called_once_with(daos=[dummy_ent])
         assert result == dummy_ent
 
 
@@ -115,12 +115,12 @@ class TestBaseRPORetrieveMany:
     def test_retrieve_many(self, mocker: MockerFixture, dummy_repo, dummy_ent):
         # Arrange
         dummy_repo._filter_by_keys = mocker.MagicMock(return_value=[dummy_ent])
-        dummy_repo._to_ents = mocker.MagicMock(return_value=[dummy_ent])
+        dummy_repo._to_entities = mocker.MagicMock(return_value=[dummy_ent])
 
         # Act
         result = dummy_repo.retrieve_many(keys=[dummy_ent.key])
 
         # Assert
         dummy_repo._filter_by_keys.assert_called_once_with(keys=[dummy_ent.key])
-        dummy_repo._to_ents.assert_called_once_with(daos=[dummy_ent])
+        dummy_repo._to_entities.assert_called_once_with(daos=[dummy_ent])
         assert result == [dummy_ent]

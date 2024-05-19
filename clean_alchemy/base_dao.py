@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, DateTime, String, Boolean
 
-from src.clean_alchemy.base import Base
+from clean_alchemy.base import Base
 
 
 class BaseDAO(Base):
