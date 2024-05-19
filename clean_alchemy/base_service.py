@@ -1,7 +1,7 @@
 import string
 from abc import ABC, abstractmethod
 from random import sample
-from typing import Generic, List, Tuple, TypeVar
+from typing import Generic, List, Tuple, TypeVar, Type
 
 from clean_alchemy import BaseRepo, BaseEntity
 
@@ -14,8 +14,13 @@ class BaseService(ABC, Generic[REPO_TYPE, ENTITY_TYPE]):
     A base service class providing common CRUD operations for repositories.
 
     Attributes:
+        repo_class (Type[REPO_TYPE]): The repository class associated with the service.
+        entity_class (Type[ENTITY_TYPE]): The entity class associated with the service.
         repo (REPO_TYPE): The repository instance used for data operations.
     """
+
+    repo_class: Type[REPO_TYPE] = None
+    entity_class: Type[ENTITY_TYPE] = None
 
     def __init__(self, repo: REPO_TYPE) -> None:
         """
@@ -25,6 +30,18 @@ class BaseService(ABC, Generic[REPO_TYPE, ENTITY_TYPE]):
             repo (REPO_TYPE): The repository instance to use for data operations.
         """
         self.repo = repo
+
+    def __init_subclass__(cls) -> None:
+        """
+        Ensures that subclasses define repo_class and entity_class attributes.
+
+        Raises:
+            NotImplementedError: If repo_class or entity_class is not defined in the subclass.
+        """
+        if cls.repo_class is None:
+            raise NotImplementedError("Must define a `repo_class` for a BaseService.")
+        if cls.entity_class is None:
+            raise NotImplementedError("Must define a `entity_class` for a BaseService.")
 
     @staticmethod
     def _generate_key(prefix: str = "", postfix: str = "", length: int = 24) -> str:
