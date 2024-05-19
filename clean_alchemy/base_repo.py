@@ -97,10 +97,9 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         )
         self._commit()
 
-    def update_many(self, entities: List[ENTITY_TYPE]) -> List[ENTITY_TYPE]:
+    def update_many(self, entities: List[ENTITY_TYPE]) -> None:
         mappings = self._to_mappings(entities=entities)
         self._bulk_update_mappings(mappings=mappings)
-        return entities
 
     def update(self, entity: ENTITY_TYPE) -> ENTITY_TYPE:
         return self.update_many(entities=[entity]).pop()

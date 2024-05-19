@@ -1,8 +1,10 @@
 from setuptools import setup, find_packages
 
+
 def read_requirements(file_name):
     with open(file_name) as f:
         return f.read().splitlines()
+
 
 setup(
     name="clean-alchemy",
