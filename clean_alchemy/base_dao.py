@@ -11,3 +11,4 @@ class BaseDAO(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
     archived = Column(Boolean, default=False, nullable=False)
+    archived_at = Column(DateTime, nullable=True)

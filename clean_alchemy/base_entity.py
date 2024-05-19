@@ -7,4 +7,5 @@ class BaseEntity(BaseModel):
     key: str
     created_at: datetime
     updated_at: datetime
-    archived: bool
+    archived: bool = False
+    archived_at: datetime = None

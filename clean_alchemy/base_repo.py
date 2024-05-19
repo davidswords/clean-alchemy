@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, List, Type
+from datetime import datetime
+from typing import Generic, TypeVar, List, Type, Any
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Query
 
 from clean_alchemy import BaseDAO, BaseEntity
 from clean_alchemy.config import ENV
@@ -42,7 +43,7 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         if cls.dao_class is None:
             raise NotImplementedError("Must define a `dao_class` for a BaseRepo.")
         if cls.entity_class is None:
-            raise NotImplementedError("Must define a `entity_class` for a BaseRepo.")
+            raise NotImplementedError("Must define an `entity_class` for a BaseRepo.")
 
     @abstractmethod
     def _to_entity(self, dao: DAO_TYPE) -> ENTITY_TYPE:
@@ -155,7 +156,18 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         """
         return self.create_many(entities=[entity]).pop()
 
-    def _filter_by_keys(self, keys: List[str]) -> List[DAO_TYPE]:
+    def _filter_by_all(self) -> Query[Any]:
+        """
+        Filters all DAOs that are not archived.
+
+        Returns:
+            Query[Any]: A SQLAlchemy query for non-archived DAOs.
+        """
+        return self.db_session.query(self.dao_class).filter(
+            self.dao_class.archived.is_(False)
+        )
+
+    def _filter_by_keys(self, keys: List[str]) -> Query[Any]:
         """
         Filters DAOs by a list of keys.
 
@@ -163,16 +175,9 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
             keys (List[str]): A list of keys to filter by.
 
         Returns:
-            List[DAO_TYPE]: A list of DAOs matching the keys.
+            Query[Any]: A SQLAlchemy query for DAOs matching the keys.
         """
-        return (
-            self.db_session.query(self.dao_class)
-            .filter(
-                self.dao_class.key.in_(keys),
-                self.dao_class.archived.is_(False),
-            )
-            .all()
-        )
+        return self._filter_by_all().filter(self.dao_class.key.in_(keys))
 
     def retrieve_many(self, keys: List[str]) -> List[ENTITY_TYPE]:
         """
@@ -184,7 +189,7 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         Returns:
             List[ENTITY_TYPE]: A list of retrieved entities.
         """
-        daos = self._filter_by_keys(keys=keys)
+        daos = self._filter_by_keys(keys=keys).all()
         return self._to_entities(daos=daos)
 
     def retrieve(self, key: str) -> ENTITY_TYPE:
@@ -199,19 +204,6 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         """
         return self.retrieve_many(keys=[key]).pop()
 
-    def _filter_by_all(self) -> List[DAO_TYPE]:
-        """
-        Filters all DAOs that are not archived.
-
-        Returns:
-            List[DAO_TYPE]: A list of non-archived DAOs.
-        """
-        return (
-            self.db_session.query(self.dao_class)
-            .filter(self.dao_class.archived.is_(False))
-            .all()
-        )
-
     def retrieve_all(self) -> List[ENTITY_TYPE]:
         """
         Retrieves all non-archived entities.
@@ -219,7 +211,7 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         Returns:
             List[ENTITY_TYPE]: A list of all non-archived entities.
         """
-        daos = self._filter_by_all()
+        daos = self._filter_by_all().all()
         return self._to_entities(daos=daos)
 
     def _bulk_update_mappings(self, mappings: List[dict]) -> None:
@@ -245,17 +237,14 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         mappings = self._to_mappings(entities=entities)
         self._bulk_update_mappings(mappings=mappings)
 
-    def update(self, entity: ENTITY_TYPE) -> ENTITY_TYPE:
+    def update(self, entity: ENTITY_TYPE) -> None:
         """
         Updates a single entity in the database.
 
         Args:
             entity (ENTITY_TYPE): The entity to update.
-
-        Returns:
-            ENTITY_TYPE: The updated entity.
         """
-        return self.update_many(entities=[entity]).pop()
+        self.update_many(entities=[entity])
 
     def delete_many(self, keys: List[str]) -> None:
         """
@@ -264,7 +253,14 @@ class BaseRepo(ABC, Generic[DAO_TYPE, ENTITY_TYPE]):
         Args:
             keys (List[str]): A list of keys of the entities to delete (archive).
         """
-        mappings = [{"key": key, "archived": True} for key in keys]
+        mappings = [
+            {
+                "key": key,
+                "archived": True,
+                "archived_at": datetime.now(),
+            }
+            for key in keys
+        ]
         self._bulk_update_mappings(mappings=mappings)
 
     def delete(self, key: str) -> None:
