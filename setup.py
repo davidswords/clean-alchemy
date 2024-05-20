@@ -8,7 +8,7 @@ def read_requirements(file_name):
 
 setup(
     name="clean-alchemy",
-    version="0.1.13",
+    version="0.1.14",
     packages=find_packages(exclude=["tests*", "build*"]),
     install_requires=read_requirements("requirements.txt"),
     extras_require={
